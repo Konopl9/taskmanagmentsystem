@@ -1,24 +1,51 @@
 package com.mishcma.taskmanagmentsystem.entity;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+import lombok.*;
+
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "task")
 public class Task {
 
-    private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @NonNull
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "description")
     private String description;
+
+    @NonNull
+    @Column(name = "status")
     private String status;
+
+    @NonNull
+    @Column(name = "creation_date")
     private LocalDateTime creationDate;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     public Task(String title, String description, String status) {
         this.title = title;
@@ -26,6 +53,4 @@ public class Task {
         this.status = status;
         this.creationDate = LocalDateTime.now();
     }
-
-
 }
