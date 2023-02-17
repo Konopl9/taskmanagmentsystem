@@ -9,3 +9,7 @@
   <li><strong>Add unit tests:</strong> Write unit tests to ensure that your API endpoints and database operations are working correctly.</li>
 </ol>
 <p>By building this Task Management System API, you'll have the opportunity to practice many of the key features of Spring Boot, Spring Security, and Spring Data JPA, including user authentication and authorization, database setup and management, and implementing CRUD operations for entities. Good luck!</p>
+
+<ol>
+  <li><strong>Roles to implement:</strong>User, Admin</li>
+</ol>
