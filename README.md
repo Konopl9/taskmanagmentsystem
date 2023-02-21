@@ -12,4 +12,5 @@
 
 <ol>
   <li><strong>Roles to implement:</strong>User, Admin</li>
+  <li><strong>Add priority:</strong>Task priority to utilize the custom annotation validation</li>
 </ol>
