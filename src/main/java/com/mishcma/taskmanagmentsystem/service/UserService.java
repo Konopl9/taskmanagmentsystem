@@ -1,13 +1,12 @@
 package com.mishcma.taskmanagmentsystem.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.mishcma.taskmanagmentsystem.entity.User;
 
 public interface UserService {
     
-    public Optional<User> getUserById(Long id);
+    public User getUserById(Long id);
 
     public List<User> getUsers();
 
