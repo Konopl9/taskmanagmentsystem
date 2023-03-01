@@ -18,6 +18,4 @@ public interface TaskService {
     public Task updateTaskStatus(Task newTask, Long id); 
 
     public void deleteTask(Long id);
-
-    public Task extractTask(Optional<Task> task);
 }

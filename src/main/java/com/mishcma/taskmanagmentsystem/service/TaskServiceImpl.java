@@ -49,7 +49,7 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.deleteById(id);
     }
 
-    public Task extractTask(Optional<Task> task) {
+    private Task extractTask(Optional<Task> task) {
         if(task.isEmpty()) {
             throw new IllegalArgumentException("No task found");
         }
