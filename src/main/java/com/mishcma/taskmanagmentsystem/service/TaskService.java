@@ -1,7 +1,6 @@
 package com.mishcma.taskmanagmentsystem.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -9,7 +8,7 @@ import com.mishcma.taskmanagmentsystem.entity.Task;
 
 @Service
 public interface TaskService {
-    public Optional<Task> getTaskById(Long id);
+    public Task getTaskById(Long id);
 
     public List<Task> getTasks();
 

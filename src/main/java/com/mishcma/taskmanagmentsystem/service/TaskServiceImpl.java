@@ -13,8 +13,8 @@ public class TaskServiceImpl implements TaskService {
 
     private TaskRepository taskRepository;
     
-    public Optional<Task> getTaskById(Long id) {
-        return taskRepository.findById(id);
+    public Task getTaskById(Long id) {
+        return extractTask(taskRepository.findById(id));
     }
 
     public List<Task> getTasks() {
@@ -26,8 +26,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public Task updateTaskStatus(Task newTask, Long id) {
-        Optional<Task> oldTask = getTaskById(id);
-        Task unwrappedTask = extractTask(oldTask);
+        Task unwrappedTask = getTaskById(id);
 
         if(newTask == null) {
             throw new IllegalArgumentException("Incorrect Task provided");
