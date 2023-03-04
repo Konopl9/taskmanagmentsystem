@@ -24,7 +24,7 @@ import lombok.AllArgsConstructor;
 @RestController
 public class TaskController {
 
-    TaskService taskService;
+    private final TaskService taskService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {

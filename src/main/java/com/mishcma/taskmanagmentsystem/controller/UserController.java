@@ -24,7 +24,7 @@ import lombok.AllArgsConstructor;
 @RestController
 public class UserController {
     
-    UserService userService;
+    private final UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
