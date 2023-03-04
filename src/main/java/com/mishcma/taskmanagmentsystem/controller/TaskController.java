@@ -24,7 +24,7 @@ import lombok.AllArgsConstructor;
 @RestController
 public class TaskController {
 
-    private TaskService taskService;
+    TaskService taskService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
@@ -36,14 +36,14 @@ public class TaskController {
         return new ResponseEntity<>(taskService.getTasks(), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Task> createtask(@Valid @RequestBody Task task) {
-        return new ResponseEntity<>(taskService.createTask(task), HttpStatus.CREATED);
+    @PostMapping("user/{userId}")
+    public ResponseEntity<Task> createTask(@Valid @RequestBody Task task, @PathVariable Long userId) {
+        return new ResponseEntity<>(taskService.createTask(task, userId), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTaskStatusById(@Valid @RequestBody Task task, @PathVariable Long id) {
-        return new ResponseEntity<>(taskService.updateTaskStatus(task, id), HttpStatus.OK);
+    @PutMapping
+    public ResponseEntity<Task> updateTaskStatusById(@Valid @RequestBody Task task) {
+        return new ResponseEntity<>(taskService.updateTaskStatus(task), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

@@ -18,6 +18,10 @@ import lombok.Setter;
 @Table(name = "users")
 public class User extends Person {
 
+    public User(Long id, String username, String password, String email) {
+        super(id, username, password, email);
+    }
+
     public User(Long id, String username, String password, String email, List<Task> tasks) {
         super(id, username, password, email);
         this.tasks = tasks;

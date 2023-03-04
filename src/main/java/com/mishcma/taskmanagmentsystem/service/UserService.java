@@ -12,7 +12,7 @@ public interface UserService {
 
     public User createUser(User User);
 
-    public User updateUserEmail(User newUser, Long id); 
+    public User updateUserEmail(User newUser); 
 
     public void deleteUser(Long id);
 }

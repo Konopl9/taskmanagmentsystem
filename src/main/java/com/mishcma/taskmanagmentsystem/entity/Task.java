@@ -2,6 +2,8 @@ package com.mishcma.taskmanagmentsystem.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,13 +12,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
-import lombok.*;
-
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -28,30 +31,30 @@ public class Task {
     @Column(name = "id")
     private Long id;
 
-    @NonNull
+    @NotNull
     @Column(name = "title")
     private String title;
 
     @Column(name = "description")
     private String description;
 
-    @NonNull
+    @NotNull
     @Column(name = "status")
     private String status;
 
-    @NonNull
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-
-    public Task(String title, String description, String status) {
+    public Task(String title, String description, String status, User user) {
         this.title = title;
         this.description = description;
         this.status = status;
         this.creationDate = LocalDateTime.now();
+        this.user = user;
     }
 }

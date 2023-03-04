@@ -24,7 +24,7 @@ import lombok.AllArgsConstructor;
 @RestController
 public class UserController {
     
-    private UserService userService;
+    UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
@@ -42,8 +42,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUserEmailById(@Valid @RequestBody User user, @PathVariable Long id) {
-        return new ResponseEntity<>(userService.updateUserEmail(user, id), HttpStatus.OK);
+    public ResponseEntity<User> updateUserEmailById(@Valid @RequestBody User user) {
+        return new ResponseEntity<>(userService.updateUserEmail(user), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

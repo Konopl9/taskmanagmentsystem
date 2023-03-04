@@ -3,12 +3,15 @@ package com.mishcma.taskmanagmentsystem.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.mishcma.taskmanagmentsystem.entity.User;
 import com.mishcma.taskmanagmentsystem.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
+@Service
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
@@ -29,8 +32,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserEmail(User newUser, Long id) {
-        Optional<User> unwrappedOldUser = userRepository.findById(id);
+    public User updateUserEmail(User newUser) {
+        Optional<User> unwrappedOldUser = userRepository.findById(newUser.getId());
         
         User oldUser = extractUser(unwrappedOldUser);
 
