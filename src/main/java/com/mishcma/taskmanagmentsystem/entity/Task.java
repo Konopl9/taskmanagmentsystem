@@ -3,6 +3,7 @@ package com.mishcma.taskmanagmentsystem.entity;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mishcma.taskmanagmentsystem.validation.TaskStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,6 +40,7 @@ public class Task {
     private String description;
 
     @NotNull
+    @TaskStatus
     @Column(name = "status")
     private String status;
 
