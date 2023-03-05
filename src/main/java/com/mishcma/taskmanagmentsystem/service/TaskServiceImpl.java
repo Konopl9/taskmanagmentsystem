@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mishcma.taskmanagmentsystem.entity.Task;
 import com.mishcma.taskmanagmentsystem.entity.User;
+import com.mishcma.taskmanagmentsystem.exception.EntityNotFoundException;
 import com.mishcma.taskmanagmentsystem.repository.TaskRepository;
 import com.mishcma.taskmanagmentsystem.repository.UserRepository;
 
@@ -18,9 +19,10 @@ public class TaskServiceImpl implements TaskService {
 
     private TaskRepository taskRepository;
     private UserRepository userRepository;
-    
+
     public Task getTaskById(Long id) {
-        return extractTask(taskRepository.findById(id));
+        Optional<Task> task = taskRepository.findById(id);
+        return extractTask(task, id);
     }
 
     public List<Task> getTasks() {
@@ -30,8 +32,8 @@ public class TaskServiceImpl implements TaskService {
     public Task createTask(Task task, Long userId) {
         Optional<User> user = userRepository.findById(userId);
 
-        if(!user.isPresent()) {
-            throw new IllegalArgumentException("User not found"); 
+        if (!user.isPresent()) {
+            throw new EntityNotFoundException(userId, User.class);
         }
 
         return taskRepository.save(new Task(task.getTitle(), task.getDescription(), task.getStatus(), user.get()));
@@ -40,29 +42,25 @@ public class TaskServiceImpl implements TaskService {
     public Task updateTaskStatus(Task newTask) {
         Task oldTask = getTaskById(newTask.getId());
 
-        if (oldTask == null) {
-            throw new IllegalArgumentException("No task found");
-        }
-
         Task updatedTask = new Task(
-            oldTask.getId(),
-            oldTask.getTitle(), 
-            oldTask.getDescription(), 
-            newTask.getStatus(), 
-            oldTask.getCreationDate(),
-            oldTask.getUser());
-            
-        return  taskRepository.save(updatedTask);   
+                oldTask.getId(),
+                oldTask.getTitle(),
+                oldTask.getDescription(),
+                newTask.getStatus(),
+                oldTask.getCreationDate(),
+                oldTask.getUser());
 
-    } 
+        return taskRepository.save(updatedTask);
+
+    }
 
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }
 
-    private Task extractTask(Optional<Task> task) {
-        if(task.isEmpty()) {
-            throw new IllegalArgumentException("No task found");
+    private Task extractTask(Optional<Task> task, Long id) {
+        if (task.isEmpty()) {
+            throw new EntityNotFoundException(id, Task.class);
         }
         return task.get();
     }

@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.mishcma.taskmanagmentsystem.entity.User;
+import com.mishcma.taskmanagmentsystem.exception.EntityNotFoundException;
 import com.mishcma.taskmanagmentsystem.repository.UserRepository;
+
 
 import lombok.AllArgsConstructor;
 
@@ -18,7 +20,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        return extractUser(userRepository.findById(id));
+        Optional<User> user = userRepository.findById(id);
+        return extractUser(user, id);
     }
 
     @Override
@@ -35,7 +38,7 @@ public class UserServiceImpl implements UserService {
     public User updateUserEmail(User newUser) {
         Optional<User> unwrappedOldUser = userRepository.findById(newUser.getId());
         
-        User oldUser = extractUser(unwrappedOldUser);
+        User oldUser = extractUser(unwrappedOldUser, newUser.getId());
 
         User updatedUser = new User(oldUser.getId(), oldUser.getUsername(), oldUser.getPassword(), newUser.getEmail(), oldUser.getTasks());
 
@@ -47,9 +50,9 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    private User extractUser(Optional<User> user) {
+    private User extractUser(Optional<User> user, Long id) {
         if(user.isEmpty()) {
-            throw new IllegalArgumentException("Incorrect User provided");
+            throw new EntityNotFoundException(id, User.class);
         }
         return user.get();
     }
