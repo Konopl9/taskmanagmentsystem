@@ -15,4 +15,6 @@ public interface UserService {
     public User updateUserEmail(User newUser); 
 
     public void deleteUser(Long id);
+
+    public User assignTaskToUser(Long userId , Long taskId);
 }

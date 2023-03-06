@@ -49,7 +49,12 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleleUserById(@PathVariable Long id) {
         userService.deleteUser(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);   
+    }
+
+    @PutMapping("/{userId}/task/{taskId}")
+    public ResponseEntity<User> assignTaskToUser(@PathVariable Long userId, @PathVariable Long taskId) {
+        return new ResponseEntity<>(userService.assignTaskToUser(userId, taskId), HttpStatus.OK);
     }
 }
+

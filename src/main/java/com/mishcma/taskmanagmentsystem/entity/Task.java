@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -48,15 +49,18 @@ public class Task {
     private LocalDateTime creationDate;
 
     @JsonIgnore
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    public Task(String title, String description, String status, User user) {
+    @PrePersist
+    public void setCreationDate() {
+        this.creationDate = LocalDateTime.now();
+    }
+
+    public Task(String title, String description, String status) {
         this.title = title;
         this.description = description;
         this.status = status;
-        this.creationDate = LocalDateTime.now();
-        this.user = user;
     }
 }

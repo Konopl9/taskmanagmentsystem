@@ -36,9 +36,9 @@ public class TaskController {
         return new ResponseEntity<>(taskService.getTasks(), HttpStatus.OK);
     }
 
-    @PostMapping("user/{userId}")
-    public ResponseEntity<Task> createTask(@Valid @RequestBody Task task, @PathVariable Long userId) {
-        return new ResponseEntity<>(taskService.createTask(task, userId), HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<Task> createTask(@Valid @RequestBody Task task) {
+        return new ResponseEntity<>(taskService.createTask(task), HttpStatus.CREATED);
     }
 
     @PutMapping

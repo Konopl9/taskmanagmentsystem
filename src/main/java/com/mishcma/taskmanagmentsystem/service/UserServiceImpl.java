@@ -5,8 +5,10 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.mishcma.taskmanagmentsystem.entity.Task;
 import com.mishcma.taskmanagmentsystem.entity.User;
 import com.mishcma.taskmanagmentsystem.exception.EntityNotFoundException;
+import com.mishcma.taskmanagmentsystem.repository.TaskRepository;
 import com.mishcma.taskmanagmentsystem.repository.UserRepository;
 
 
@@ -17,6 +19,7 @@ import lombok.AllArgsConstructor;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+    private TaskRepository taskRepository;
 
     @Override
     public User getUserById(Long id) {
@@ -55,6 +58,20 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException(id, User.class);
         }
         return user.get();
+    }
+
+    @Override
+    public User assignTaskToUser(Long userId, Long taskId) {
+        Optional<User> wrapperdUser = userRepository.findById(userId);
+        User user = extractUser(wrapperdUser, userId);
+        
+        Optional<Task> wrappedTask = taskRepository.findById(taskId);
+        Task task = TaskServiceImpl.extractTask(wrappedTask, taskId);
+
+        task.setUser(user);
+        taskRepository.save(task);
+
+        return userRepository.findById(user.getId()).get();
     }
     
 }

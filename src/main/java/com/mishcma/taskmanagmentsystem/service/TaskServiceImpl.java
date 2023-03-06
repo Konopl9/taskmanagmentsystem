@@ -6,10 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.mishcma.taskmanagmentsystem.entity.Task;
-import com.mishcma.taskmanagmentsystem.entity.User;
 import com.mishcma.taskmanagmentsystem.exception.EntityNotFoundException;
 import com.mishcma.taskmanagmentsystem.repository.TaskRepository;
-import com.mishcma.taskmanagmentsystem.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -18,7 +16,6 @@ import lombok.AllArgsConstructor;
 public class TaskServiceImpl implements TaskService {
 
     private TaskRepository taskRepository;
-    private UserRepository userRepository;
 
     public Task getTaskById(Long id) {
         Optional<Task> task = taskRepository.findById(id);
@@ -29,14 +26,8 @@ public class TaskServiceImpl implements TaskService {
         return (List<Task>) taskRepository.findAll();
     }
 
-    public Task createTask(Task task, Long userId) {
-        Optional<User> user = userRepository.findById(userId);
-
-        if (!user.isPresent()) {
-            throw new EntityNotFoundException(userId, User.class);
-        }
-
-        return taskRepository.save(new Task(task.getTitle(), task.getDescription(), task.getStatus(), user.get()));
+    public Task createTask(Task task) {
+        return taskRepository.save(task);
     }
 
     public Task updateTaskStatus(Task newTask) {
@@ -58,7 +49,7 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.deleteById(id);
     }
 
-    private Task extractTask(Optional<Task> task, Long id) {
+    public static Task extractTask(Optional<Task> task, Long id) {
         if (task.isEmpty()) {
             throw new EntityNotFoundException(id, Task.class);
         }
