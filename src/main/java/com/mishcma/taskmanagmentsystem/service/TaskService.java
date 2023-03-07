@@ -11,7 +11,9 @@ public interface TaskService {
 
     public Task createTask(Task task);
 
-    public Task updateTaskStatus(Task newTask); 
+    public Task updateTaskStatus(Long id, String status); 
+
+    public Task updateTaskPriority(Long id, Short priority);
 
     public void deleteTask(Long id);
 

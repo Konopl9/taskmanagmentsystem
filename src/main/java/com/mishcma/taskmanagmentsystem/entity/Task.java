@@ -14,6 +14,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +41,11 @@ public class Task {
 
     @Column(name = "description")
     private String description;
+
+    @Min(value = 1, message = "Priority can't be lower than 1")
+    @Max(value = 5, message = "Priority can't be higer than 5")
+    @Column(name = "priority")
+    private Short priority;
 
     @NotNull
     @TaskStatus

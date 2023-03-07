@@ -30,19 +30,34 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(task);
     }
 
-    public Task updateTaskStatus(Task newTask) {
-        Task oldTask = getTaskById(newTask.getId());
+    public Task updateTaskStatus(Long id, String status) {
+        Task oldTask = getTaskById(id);
 
         Task updatedTask = new Task(
                 oldTask.getId(),
                 oldTask.getTitle(),
                 oldTask.getDescription(),
-                newTask.getStatus(),
+                oldTask.getPriority(),
+                status,
                 oldTask.getCreationDate(),
                 oldTask.getUser());
 
         return taskRepository.save(updatedTask);
+    }
 
+    public Task updateTaskPriority(Long id, Short priority) {
+        Task oldTask = getTaskById(id);
+
+        Task updatedTask = new Task(
+                oldTask.getId(),
+                oldTask.getTitle(),
+                oldTask.getDescription(),
+                priority,
+                oldTask.getStatus(),
+                oldTask.getCreationDate(),
+                oldTask.getUser());
+
+        return taskRepository.save(updatedTask);
     }
 
     public void deleteTask(Long id) {

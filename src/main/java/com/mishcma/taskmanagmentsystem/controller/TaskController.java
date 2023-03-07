@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,9 +41,16 @@ public class TaskController {
         return new ResponseEntity<>(taskService.createTask(task), HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PatchMapping("/status")
     public ResponseEntity<Task> updateTaskStatusById(@Valid @RequestBody Task task) {
-        return new ResponseEntity<>(taskService.updateTaskStatus(task), HttpStatus.OK);
+        Task updatedTask = taskService.updateTaskStatus(task.getId(), task.getStatus());
+        return ResponseEntity.ok(updatedTask);
+    }
+
+    @PatchMapping("/priority")
+    public ResponseEntity<Task> updateTaskPriorityById(@Valid @RequestBody Task task) {
+        Task updatedTask = taskService.updateTaskPriority(task.getId(), task.getPriority());
+        return ResponseEntity.ok(updatedTask);
     }
 
     @DeleteMapping("/{id}")
