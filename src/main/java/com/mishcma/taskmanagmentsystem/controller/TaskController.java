@@ -1,6 +1,7 @@
 package com.mishcma.taskmanagmentsystem.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,13 @@ public class TaskController {
         return new ResponseEntity<>(taskService.getTasks(), HttpStatus.OK);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Task>> getTasksByUserId(@PathVariable Long userId, @RequestBody Map<String, String> requestBody) {
+        String status = requestBody.get("status");
+        List<Task> tasksForUserByIdAndStatus = taskService.getTaskByUserAndStatus(userId, status);
+        return ResponseEntity.ok(tasksForUserByIdAndStatus);
+    }
+
     @PostMapping
     public ResponseEntity<Task> createTask(@Valid @RequestBody Task task) {
         return new ResponseEntity<>(taskService.createTask(task), HttpStatus.CREATED);
@@ -54,9 +62,8 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleleTaskById(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> deleteTaskById(@PathVariable Long id) {
         taskService.deleteTask(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
     }
 }

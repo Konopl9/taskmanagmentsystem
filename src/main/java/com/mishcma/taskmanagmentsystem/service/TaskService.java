@@ -17,4 +17,5 @@ public interface TaskService {
 
     public void deleteTask(Long id);
 
+    List<Task> getTaskByUserAndStatus(Long userId, String status);
 }
