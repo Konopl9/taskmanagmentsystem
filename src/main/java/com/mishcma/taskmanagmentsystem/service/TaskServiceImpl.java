@@ -1,5 +1,6 @@
 package com.mishcma.taskmanagmentsystem.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -43,9 +44,11 @@ public class TaskServiceImpl implements TaskService {
                 oldTask.getTitle(),
                 oldTask.getDescription(),
                 oldTask.getPriority(),
-                status,
-                oldTask.getCreationDate(),
+                oldTask.getStatus(),
+                oldTask.getMaturityDate(), // pass the old maturity date here
                 oldTask.getUser());
+
+        updatedTask.setStatus(status); // set the new maturity date
 
         return taskRepository.save(updatedTask);
     }
@@ -57,10 +60,29 @@ public class TaskServiceImpl implements TaskService {
                 oldTask.getId(),
                 oldTask.getTitle(),
                 oldTask.getDescription(),
-                priority,
+                oldTask.getPriority(),
                 oldTask.getStatus(),
-                oldTask.getCreationDate(),
+                oldTask.getMaturityDate(), // pass the old maturity date here
                 oldTask.getUser());
+
+        updatedTask.setPriority(priority); // set the new maturity date
+
+        return taskRepository.save(updatedTask);
+    }
+
+    public Task updateTaskMaturityDate(Long id, LocalDateTime maturityDate) {
+        Task oldTask = getTaskById(id);
+
+        Task updatedTask = new Task(
+                oldTask.getId(),
+                oldTask.getTitle(),
+                oldTask.getDescription(),
+                oldTask.getPriority(),
+                oldTask.getStatus(),
+                oldTask.getMaturityDate(), // pass the old maturity date here
+                oldTask.getUser());
+
+        updatedTask.setMaturityDate(maturityDate); // set the new maturity date
 
         return taskRepository.save(updatedTask);
     }

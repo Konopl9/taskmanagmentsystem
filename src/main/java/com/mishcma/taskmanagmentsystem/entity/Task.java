@@ -3,6 +3,7 @@ package com.mishcma.taskmanagmentsystem.entity;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mishcma.taskmanagmentsystem.validation.TaskStatus;
 
 import jakarta.persistence.Column;
@@ -14,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -25,7 +27,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "task")
 public class Task {
@@ -55,6 +56,11 @@ public class Task {
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
+    @Future
+    @JsonProperty("maturity_date")
+    @Column(name = "maturity_date")
+    private LocalDateTime maturityDate;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -69,5 +75,27 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = status;
+    }
+
+    public Task(Long id, String title, String description, Short priority, String status, LocalDateTime maturityDate, User user) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.priority = priority;
+        this.status = status;
+        this.creationDate = LocalDateTime.now();
+        this.maturityDate = maturityDate;
+        this.user = user;
+    }
+
+    public Task(Long id, String title, String description, Short priority, String status, LocalDateTime creationDate, LocalDateTime maturityDate, User user) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.priority = priority;
+        this.status = status;
+        this.creationDate = creationDate;
+        this.maturityDate = maturityDate;
+        this.user = user;
     }
 }

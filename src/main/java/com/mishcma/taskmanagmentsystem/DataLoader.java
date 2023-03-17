@@ -2,6 +2,7 @@ package com.mishcma.taskmanagmentsystem;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -31,8 +32,9 @@ public class DataLoader implements CommandLineRunner {
         userRepository.save(secondUser);
         
         // create tasks
-        Task firstTask = new Task(1L, "first_title", "first_desc", (short) 1, "To do", LocalDateTime.now(), null);
-        Task secondTask = new Task(2L, "second_title", "second_desc", (short) 2, "To do", LocalDateTime.now(), null);
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        Task firstTask = new Task(1L, "first_title", "first_desc", (short) 1, "To do", LocalDateTime.parse("2023-12-03T00:00:00+03:00", formatter), null);
+        Task secondTask = new Task(2L, "second_title", "second_desc", (short) 2, "To do", LocalDateTime.parse("2023-12-03T00:00:00+03:00", formatter), null);
 
         // save task
         taskRepository.save(firstTask);

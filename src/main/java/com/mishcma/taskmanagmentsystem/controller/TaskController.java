@@ -61,6 +61,12 @@ public class TaskController {
         return ResponseEntity.ok(updatedTask);
     }
 
+    @PatchMapping("/maturity_date")
+    public ResponseEntity<Task> updateTaskMaturityDateById(@Valid @RequestBody Task task) {
+        Task updatedTask = taskService.updateTaskMaturityDate(task.getId(), task.getMaturityDate());
+        return ResponseEntity.ok(updatedTask);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteTaskById(@PathVariable Long id) {
         taskService.deleteTask(id);
