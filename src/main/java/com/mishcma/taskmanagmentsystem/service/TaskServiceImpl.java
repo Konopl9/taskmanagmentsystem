@@ -1,6 +1,6 @@
 package com.mishcma.taskmanagmentsystem.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -30,6 +30,12 @@ public class TaskServiceImpl implements TaskService {
 
     public List<Task> getTasks() {
         return (List<Task>) taskRepository.findAll();
+    }
+
+    @Override
+    public List<Task> getUserTodayTask(Long userId) {
+        User user =  userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(userId, User.class));
+        return taskRepository.findAllByUserIdAndMaturityDate(user.getId(), LocalDate.now());
     }
 
     public Task createTask(Task task) {
@@ -70,7 +76,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(updatedTask);
     }
 
-    public Task updateTaskMaturityDate(Long id, LocalDateTime maturityDate) {
+    public Task updateTaskMaturityDate(Long id, LocalDate maturityDate) {
         Task oldTask = getTaskById(id);
 
         Task updatedTask = new Task(

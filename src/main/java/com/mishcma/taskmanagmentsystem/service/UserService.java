@@ -6,15 +6,15 @@ import com.mishcma.taskmanagmentsystem.entity.User;
 
 public interface UserService {
     
-    public User getUserById(Long id);
+    User getUserById(Long id);
 
-    public List<User> getUsers();
+    List<User> getUsers();
 
-    public User createUser(User User);
+    User createUser(User User);
 
-    public User updateUserEmail(User newUser); 
+    User updateUserEmail(User newUser);
 
-    public void deleteUser(Long id);
+    void deleteUser(Long id);
 
-    public User assignTaskToUser(Long userId , Long taskId);
+    User assignTaskToUser(Long userId , Long taskId);
 }

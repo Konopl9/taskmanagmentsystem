@@ -1,6 +1,7 @@
 package com.mishcma.taskmanagmentsystem;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -32,9 +33,9 @@ public class DataLoader implements CommandLineRunner {
         userRepository.save(secondUser);
         
         // create tasks
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-        Task firstTask = new Task(1L, "first_title", "first_desc", (short) 1, "To do", LocalDateTime.parse("2023-12-03T00:00:00+03:00", formatter), null);
-        Task secondTask = new Task(2L, "second_title", "second_desc", (short) 2, "To do", LocalDateTime.parse("2023-12-03T00:00:00+03:00", formatter), null);
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+        Task firstTask = new Task(1L, "first_title", "first_desc", (short) 1, "To do", LocalDate.parse("2023-12-03", formatter), null);
+        Task secondTask = new Task(2L, "second_title", "second_desc", (short) 2, "To do", LocalDate.parse("2023-12-03", formatter), null);
 
         // save task
         taskRepository.save(firstTask);

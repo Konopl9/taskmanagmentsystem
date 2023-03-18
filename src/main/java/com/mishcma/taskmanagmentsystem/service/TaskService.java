@@ -1,24 +1,27 @@
 package com.mishcma.taskmanagmentsystem.service;
 
+import com.mishcma.taskmanagmentsystem.entity.Task;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.mishcma.taskmanagmentsystem.entity.Task;
-
 public interface TaskService {
-    public Task getTaskById(Long id);
+    Task getTaskById(Long id);
 
-    public List<Task> getTasks();
+    List<Task> getTasks();
 
-    public Task createTask(Task task);
+    List<Task> getUserTodayTask(Long userId);
 
-    public Task updateTaskStatus(Long id, String status); 
+    Task createTask(Task task);
 
-    public Task updateTaskPriority(Long id, Short priority);
+    Task updateTaskStatus(Long id, String status);
 
-    public Task updateTaskMaturityDate(Long id, LocalDateTime maturityDate);
+    Task updateTaskPriority(Long id, Short priority);
 
-    public void deleteTask(Long id);
+    Task updateTaskMaturityDate(Long id, LocalDate maturityDate);
+
+    void deleteTask(Long id);
 
     List<Task> getTaskByUserAndStatus(Long userId, String status);
 }

@@ -1,28 +1,19 @@
 package com.mishcma.taskmanagmentsystem.entity;
 
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mishcma.taskmanagmentsystem.validation.TaskStatus;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Future;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -56,10 +47,10 @@ public class Task {
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
-    @Future
+    @FutureOrPresent
     @JsonProperty("maturity_date")
     @Column(name = "maturity_date")
-    private LocalDateTime maturityDate;
+    private LocalDate maturityDate;
 
     @JsonIgnore
     @ManyToOne
@@ -77,7 +68,7 @@ public class Task {
         this.status = status;
     }
 
-    public Task(Long id, String title, String description, Short priority, String status, LocalDateTime maturityDate, User user) {
+    public Task(Long id, String title, String description, Short priority, String status, LocalDate maturityDate, User user) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -88,7 +79,7 @@ public class Task {
         this.user = user;
     }
 
-    public Task(Long id, String title, String description, Short priority, String status, LocalDateTime creationDate, LocalDateTime maturityDate, User user) {
+    public Task(Long id, String title, String description, Short priority, String status, LocalDateTime creationDate, LocalDate maturityDate, User user) {
         this.id = id;
         this.title = title;
         this.description = description;

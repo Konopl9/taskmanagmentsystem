@@ -38,10 +38,16 @@ public class TaskController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Task>> getTasksByUserId(@PathVariable Long userId, @RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<List<Task>> getTasksByUserIdAndStatus(@PathVariable Long userId, @RequestBody Map<String, String> requestBody) {
         String status = requestBody.get("status");
         List<Task> tasksForUserByIdAndStatus = taskService.getTaskByUserAndStatus(userId, status);
         return ResponseEntity.ok(tasksForUserByIdAndStatus);
+    }
+
+    @GetMapping("/user/{userId}/today")
+    public ResponseEntity<List<Task>> getTasksByUserIdAndToday(@PathVariable Long userId) {
+        List<Task> taskDorUserByUserIdAndToday = taskService.getUserTodayTask(userId);
+        return ResponseEntity.ok(taskDorUserByUserIdAndToday);
     }
 
     @PostMapping
