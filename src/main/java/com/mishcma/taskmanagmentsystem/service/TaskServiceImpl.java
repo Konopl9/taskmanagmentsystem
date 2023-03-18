@@ -103,6 +103,15 @@ public class TaskServiceImpl implements TaskService {
 
     }
 
+    @Override
+    public Task reassignTask(Long taskId, Long userId) {
+        Task task = getTaskById(taskId);
+        User newUser =  userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(userId, User.class));
+        User oldUser =  userRepository.findById(task.getUser().getId()).orElseThrow(() -> new EntityNotFoundException(userId, User.class));
+        task.setUser(newUser);
+        return taskRepository.save(task);
+    }
+
     public static Task extractTask(Optional<Task> task, Long id) {
         if (task.isEmpty()) {
             throw new EntityNotFoundException(id, Task.class);

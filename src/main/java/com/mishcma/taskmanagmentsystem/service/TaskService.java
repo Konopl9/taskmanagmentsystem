@@ -3,7 +3,6 @@ package com.mishcma.taskmanagmentsystem.service;
 import com.mishcma.taskmanagmentsystem.entity.Task;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TaskService {
@@ -24,4 +23,6 @@ public interface TaskService {
     void deleteTask(Long id);
 
     List<Task> getTaskByUserAndStatus(Long userId, String status);
+
+    Task reassignTask(Long taskId, Long userId);
 }
