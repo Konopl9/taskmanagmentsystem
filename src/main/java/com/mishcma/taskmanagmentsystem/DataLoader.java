@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.mishcma.taskmanagmentsystem.service.TaskService;
+import com.mishcma.taskmanagmentsystem.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,8 @@ public class DataLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
+
+    private final UserService userService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -40,6 +44,10 @@ public class DataLoader implements CommandLineRunner {
         // save task
         taskRepository.save(firstTask);
         taskRepository.save(secondTask);
+
+        // assign task to user
+        userService.assignTaskToUser(1L, 1L);
+        userService.assignTaskToUser(2L, 2L);
     }
-    
+
 }
