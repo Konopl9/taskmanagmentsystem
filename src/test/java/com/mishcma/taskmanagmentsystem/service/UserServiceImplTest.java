@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,12 +55,15 @@ class UserServiceImplTest {
         List<User> userList = new ArrayList<>();
         userList.add(new User(1L, "username1", "password1", "email1", new ArrayList<>()));
         userList.add(new User(2L, "username2", "password2", "email2", new ArrayList<>()));
-        when(userRepository.findAll()).thenReturn(userList);
+        Page<User> userPage = new PageImpl<>(userList);
 
-        List<User> result = userService.getUsers();
+        when(userRepository.findAll(any(Pageable.class))).thenReturn(userPage);
 
-        verify(userRepository, times(1)).findAll();
-        assertEquals(userList, result);
+        Pageable pageable = PageRequest.of(1, 2);
+        Page<User> result = userService.getUsers(pageable);
+
+        verify(userRepository, times(1)).findAll(pageable);
+        assertEquals(userPage, result);
     }
 
     @Test

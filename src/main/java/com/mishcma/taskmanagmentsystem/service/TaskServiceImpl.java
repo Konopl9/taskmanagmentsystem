@@ -7,6 +7,9 @@ import java.util.Optional;
 
 import com.mishcma.taskmanagmentsystem.entity.User;
 import com.mishcma.taskmanagmentsystem.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mishcma.taskmanagmentsystem.entity.Task;
@@ -28,14 +31,14 @@ public class TaskServiceImpl implements TaskService {
         return extractTask(task, id);
     }
 
-    public List<Task> getTasks() {
-        return (List<Task>) taskRepository.findAll();
+    public Page<Task> getTasks(Pageable pageable) {
+        return taskRepository.findAll(pageable);
     }
 
     @Override
-    public List<Task> getUserTodayTask(Long userId) {
+    public Page<Task> getUserTodayTask(Long userId, Pageable pageable) {
         User user =  userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(userId, User.class));
-        return taskRepository.findAllByUserIdAndMaturityDate(user.getId(), LocalDate.now());
+        return taskRepository.findAllByUserIdAndMaturityDate(user.getId(), LocalDate.now(), pageable);
     }
 
     public Task createTask(Task task) {
@@ -97,10 +100,22 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.deleteById(id);
     }
 
-    public List<Task> getTaskByUserAndStatus(Long userId, String status) {
-        User user =  userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(userId, User.class));
-        return user.getTasks().stream().filter(task -> Objects.equals(task.getStatus(), status)).toList();
+    public Page<Task> getTaskByUserAndStatus(Long userId, String status, Pageable pageable) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(userId, User.class));
 
+        List<Task> tasks = user.getTasks().stream()
+                .filter(task -> Objects.equals(task.getStatus(), status))
+                .toList();
+
+        int totalElements = tasks.size();
+
+        int fromIndex = (int)pageable.getOffset();
+        int toIndex = Math.min(fromIndex + pageable.getPageSize(), totalElements);
+
+        tasks = tasks.subList(fromIndex, toIndex);
+
+        return new PageImpl<>(tasks, pageable, totalElements);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.mishcma.taskmanagmentsystem.service;
 
 import com.mishcma.taskmanagmentsystem.entity.Task;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -8,9 +10,9 @@ import java.util.List;
 public interface TaskService {
     Task getTaskById(Long id);
 
-    List<Task> getTasks();
+    Page<Task> getTasks(Pageable pageable);
 
-    List<Task> getUserTodayTask(Long userId);
+    Page<Task> getUserTodayTask(Long userId, Pageable pageable);
 
     Task createTask(Task task);
 
@@ -22,7 +24,7 @@ public interface TaskService {
 
     void deleteTask(Long id);
 
-    List<Task> getTaskByUserAndStatus(Long userId, String status);
+    Page<Task> getTaskByUserAndStatus(Long userId, String status, Pageable pageable);
 
     Task reassignTask(Long taskId, Long userId);
 }

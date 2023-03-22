@@ -1,17 +1,17 @@
 package com.mishcma.taskmanagmentsystem.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import com.mishcma.taskmanagmentsystem.entity.Task;
+import com.mishcma.taskmanagmentsystem.service.TaskService;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.mishcma.taskmanagmentsystem.entity.Task;
-import com.mishcma.taskmanagmentsystem.service.TaskService;
-
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import java.util.Map;
 
 @AllArgsConstructor
 @RequestMapping("/task")
@@ -26,20 +26,24 @@ public class TaskController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Task>> getTasks() {
-        return new ResponseEntity<>(taskService.getTasks(), HttpStatus.OK);
+    public ResponseEntity<Page<Task>> getTasks(@RequestParam int page, @RequestParam int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Task> taskPage = taskService.getTasks(pageable);
+        return new ResponseEntity<>(taskPage, HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Task>> getTasksByUserIdAndStatus(@PathVariable Long userId, @RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<Page<Task>> getTasksByUserIdAndStatus(@PathVariable Long userId, @RequestBody Map<String, String> requestBody, @RequestParam int page, @RequestParam int size) {
         String status = requestBody.get("status");
-        List<Task> tasksForUserByIdAndStatus = taskService.getTaskByUserAndStatus(userId, status);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Task> tasksForUserByIdAndStatus = taskService.getTaskByUserAndStatus(userId, status, pageable);
         return ResponseEntity.ok(tasksForUserByIdAndStatus);
     }
 
     @GetMapping("/user/{userId}/today")
-    public ResponseEntity<List<Task>> getTasksByUserIdAndToday(@PathVariable Long userId) {
-        List<Task> taskDorUserByUserIdAndToday = taskService.getUserTodayTask(userId);
+    public ResponseEntity<Page<Task>> getTasksByUserIdAndToday(@PathVariable Long userId, @RequestParam int page, @RequestParam int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Task> taskDorUserByUserIdAndToday = taskService.getUserTodayTask(userId, pageable);
         return ResponseEntity.ok(taskDorUserByUserIdAndToday);
     }
 

@@ -1,6 +1,7 @@
 package com.mishcma.taskmanagmentsystem.service;
 
 import com.mishcma.taskmanagmentsystem.entity.Task;
+import com.mishcma.taskmanagmentsystem.entity.User;
 import com.mishcma.taskmanagmentsystem.exception.EntityNotFoundException;
 import com.mishcma.taskmanagmentsystem.repository.TaskRepository;
 import org.junit.jupiter.api.Assertions;
@@ -9,6 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +58,15 @@ public class TaskServiceImplTest {
         List<Task> tasks = new ArrayList<>();
         tasks.add(new Task(1L, "Test Task 1", "This is test task 1", (short) 1, "OPEN", null, null));
         tasks.add(new Task(2L, "Test Task 2", "This is test task 2", (short) 2, "CLOSED", null, null));
-        when(taskRepository.findAll()).thenReturn(tasks);
+        Page<Task> userPage = new PageImpl<>(tasks);
 
-        List<Task> result = taskService.getTasks();
+        when(taskRepository.findAll(any(Pageable.class))).thenReturn(userPage);
 
-        verify(taskRepository, times(1)).findAll();
-        Assertions.assertEquals(tasks, result);
+        Pageable pageable = PageRequest.of(1, 2);
+        Page<Task> result = taskService.getTasks(pageable);
+
+        verify(taskRepository, times(1)).findAll(pageable);
+        Assertions.assertEquals(userPage, result);
     }
 
     @Test
