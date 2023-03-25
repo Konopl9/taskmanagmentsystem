@@ -27,8 +27,7 @@ public class TaskServiceImpl implements TaskService {
     private UserRepository userRepository;
 
     public Task getTaskById(Long id) {
-        Optional<Task> task = taskRepository.findById(id);
-        return extractTask(task, id);
+        return taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Task.class));
     }
 
     public Page<Task> getTasks(Pageable pageable) {
@@ -54,10 +53,10 @@ public class TaskServiceImpl implements TaskService {
                 oldTask.getDescription(),
                 oldTask.getPriority(),
                 oldTask.getStatus(),
-                oldTask.getMaturityDate(), // pass the old maturity date here
+                oldTask.getMaturityDate(),
                 oldTask.getUser());
 
-        updatedTask.setStatus(status); // set the new maturity date
+        updatedTask.setStatus(status);
 
         return taskRepository.save(updatedTask);
     }
@@ -88,10 +87,10 @@ public class TaskServiceImpl implements TaskService {
                 oldTask.getDescription(),
                 oldTask.getPriority(),
                 oldTask.getStatus(),
-                oldTask.getMaturityDate(), // pass the old maturity date here
+                oldTask.getMaturityDate(),
                 oldTask.getUser());
 
-        updatedTask.setMaturityDate(maturityDate); // set the new maturity date
+        updatedTask.setMaturityDate(maturityDate);
 
         return taskRepository.save(updatedTask);
     }
@@ -125,12 +124,5 @@ public class TaskServiceImpl implements TaskService {
         User oldUser =  userRepository.findById(task.getUser().getId()).orElseThrow(() -> new EntityNotFoundException(userId, User.class));
         task.setUser(newUser);
         return taskRepository.save(task);
-    }
-
-    public static Task extractTask(Optional<Task> task, Long id) {
-        if (task.isEmpty()) {
-            throw new EntityNotFoundException(id, Task.class);
-        }
-        return task.get();
     }
 }

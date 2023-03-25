@@ -1,19 +1,15 @@
 package com.mishcma.taskmanagmentsystem.controller;
 
-import java.util.List;
-
+import com.mishcma.taskmanagmentsystem.entity.User;
+import com.mishcma.taskmanagmentsystem.service.UserService;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.mishcma.taskmanagmentsystem.entity.User;
-import com.mishcma.taskmanagmentsystem.service.UserService;
-
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RequestMapping("/user")

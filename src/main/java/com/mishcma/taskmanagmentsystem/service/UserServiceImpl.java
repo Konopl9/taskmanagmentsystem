@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User assignTaskToUser(Long userId, Long taskId) {
         User user = getUserById(userId);
-        Task task = TaskServiceImpl.extractTask(taskRepository.findById(taskId), taskId);
+        Task task =  taskRepository.findById(taskId).orElseThrow(() -> new EntityNotFoundException(taskId, Task.class));
         task.setUser(user);
         taskRepository.save(task);
         return userRepository.findById(user.getId()).orElseThrow(() -> new EntityNotFoundException(userId, User.class));

@@ -29,4 +29,11 @@ public class User extends Person {
 
     @OneToMany(mappedBy = "user")
     private List<Task> tasks;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "tasks=" + tasks +
+                '}';
+    }
 }

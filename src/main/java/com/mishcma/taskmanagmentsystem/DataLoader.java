@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import com.mishcma.taskmanagmentsystem.service.TaskService;
 import com.mishcma.taskmanagmentsystem.service.UserService;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.mishcma.taskmanagmentsystem.entity.Task;
@@ -17,6 +18,7 @@ import com.mishcma.taskmanagmentsystem.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
 
+@Profile("!test")
 @AllArgsConstructor
 @Component
 public class DataLoader implements CommandLineRunner {

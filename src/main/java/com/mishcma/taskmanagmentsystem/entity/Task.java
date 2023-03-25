@@ -14,6 +14,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -88,5 +89,16 @@ public class Task {
         this.creationDate = creationDate;
         this.maturityDate = maturityDate;
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(id, task.id) &&
+                Objects.equals(title, task.title) &&
+                Objects.equals(description, task.description) &&
+                Objects.equals(user, task.user);
     }
 }

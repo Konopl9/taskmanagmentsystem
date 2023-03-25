@@ -38,4 +38,14 @@ public class Person {
     
     @Column(name = "email")
     private String email;
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
